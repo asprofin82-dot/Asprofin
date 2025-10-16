@@ -1,0 +1,165 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes growAndShrink {
+        0% {
+          transform: scale(0.8);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(0.8);
+        }
+      }
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .animate-fadeOut {
+        animation: fadeOut 1s forwards;
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.8s forwards;
+      }
+      .animate-slideUp {
+        animation: slideUp 0.8s forwards;
+      }
+      .animate-icon {
+        animation: growAndShrink 2s infinite alternate;
+      }
+      .animate-spin-fast {
+        animation: rotate 1s linear infinite;
+      }
+      .animate-grow-bar {
+        animation: growBar 3s linear forwards;
+      }
+      :root {
+        --primary-orange: #ff6a00;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body>
+<div class="relative flex h-screen min-h-screen w-full flex-col items-center justify-center bg-white group/design-root overflow-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+<div class="absolute text-[var(--primary-orange)] text-5xl font-extrabold leading-tight tracking-[-0.015em] opacity-100 transition-opacity duration-1000 ease-out" id="asprofin-title">
+        Asprofin
+      </div>
+<div class="absolute flex flex-col items-center justify-center gap-8 w-full h-full opacity-0" id="brand-story">
+<div class="flex flex-row justify-center items-center gap-10">
+<div class="story-icon flex flex-col items-center text-[var(--primary-orange)] opacity-0 -translate-y-4">
+<span class="material-symbols-outlined text-6xl animate-icon">
+              trending_up
+            </span>
+<p class="text-sm font-medium mt-2">Growth</p>
+</div>
+<div class="story-icon flex flex-col items-center text-[var(--primary-orange)] opacity-0 -translate-y-4">
+<span class="material-symbols-outlined text-6xl animate-icon">
+              lock
+            </span>
+<p class="text-sm font-medium mt-2">Security</p>
+</div>
+<div class="story-icon flex flex-col items-center text-[var(--primary-orange)] opacity-0 -translate-y-4">
+<span class="material-symbols-outlined text-6xl animate-icon">
+              account_balance
+            </span>
+<p class="text-sm font-medium mt-2">Stability</p>
+</div>
+</div>
+<div class="relative w-4/5 md:w-1/3 h-2 bg-gray-200 rounded-full mt-12 overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-[var(--primary-orange)] rounded-full w-0 transition-all duration-1000 ease-linear" id="progress-bar"></div>
+<div class="absolute inset-0 flex items-center justify-center text-xs text-gray-700">
+<span class="text-white font-medium" id="progress-text"></span>
+</div>
+</div>
+</div>
+</div>
+<script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const asprofinTitle = document.getElementById("asprofin-title");
+        const brandStory = document.getElementById("brand-story");
+        const storyIcons = document.querySelectorAll(".story-icon");
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+        let progress = 0;
+        // Step 1: Asprofin title appears
+        // No initial animation needed as it's already visible.
+        // Step 2: Asprofin title fades out, and brand story fades in
+        setTimeout(() => {
+          asprofinTitle.classList.remove("opacity-100");
+          asprofinTitle.classList.add("animate-fadeOut"); // Start fade out animation
+          brandStory.classList.add("animate-fadeIn");
+          brandStory.classList.remove("opacity-0"); // Make brand story visible for its children animations
+        }, 1500); // Wait 1.5 seconds for the title to be prominent
+        // Step 3: Animate icons and progress bar
+        setTimeout(() => {
+          storyIcons.forEach((icon, index) => {
+            setTimeout(() => {
+              icon.classList.remove("opacity-0", "-translate-y-4");
+              icon.classList.add("animate-slideUp");
+            }, index * 300); // Stagger icon animations
+          });
+          // Simulate progress
+          const interval = setInterval(() => {
+            if (progress < 100) {
+              progress += Math.floor(Math.random() * 10) + 1; // Increase by random amount
+              if (progress > 100) progress = 100;
+              progressBar.style.width = `${progress}%`;
+              progressText.textContent = `${progress}%`;
+            } else {
+              clearInterval(interval);
+              // Optionally, redirect or show next screen after loading
+              // window.location.href = '/dashboard';
+            }
+          }, 200); // Update every 200ms
+        }, 2500); // Start icons and progress bar after initial fade animations
+        // Ensure the title is removed from flow after fade out
+        asprofinTitle.addEventListener("animationend", (e) => {
+          if (e.animationName === "fadeOut") {
+            asprofinTitle.style.display = "none";
+          }
+        });
+      });
+    </script>
+
+</body></html>
